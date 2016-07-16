@@ -66,19 +66,6 @@ var (
 	}
 )
 
-func Welcome(lang string) string {
-	WelcomeText := ""
-	switch lang {
-	case RUSSIAN_LANG:
-		WelcomeText = "Добро пожаловать в PPA list manager версии "
-	case ENGLISH_LANG:
-		WelcomeText = "Welcome to PPA liast mamger v."
-	default:
-		WelcomeText = "Добро пожаловать в PPA list manager версии "
-	}
-	return WelcomeText
-}
-
 func LoadPage(name, lang string) string {
 	pages_path := "/opt/ppalist/pages"
 	PageFile, err := os.Open(fmt.Sprintf("%s/%s/%s.html", pages_path, lang, name))
@@ -138,9 +125,6 @@ func LoadTemplate(lang, title string) string {
 
 func PrintHTML(content, title, lang string, to_replace map[string]string) string {
 	template := LoadTemplate(lang, title)
-
-	fmt.Println(template)
-
 	HTML := fmt.Sprintf(template, content)
 	if (len(to_replace) > 0) {
 		for text, replaced := range to_replace {
@@ -157,8 +141,10 @@ func GetMainPage(lang string) string {
 }
 
 func GetReposPage(lang string) string {
+	fmt.Println(PpaListString)
+	fmt.Println(PpaList)
 	to_replace := map[string]string {}
-	content := fmt.Sprintf(LoadPage("repo_list", lang),  strings.Join(strings.Split(PpaListString,";"),"</br>"), SoftListString, strings.Join(SourceList, "</br>"),strings.Join(PpaList, "</br> sudo add-apt-repository"), strings.Join(SoftList, " "))
+	content := fmt.Sprintf(LoadPage("repo_list", lang),  strings.Join(strings.Split(PpaListString,";"),"</br>"), SoftListString, strings.Join(SourceList, "</br>"),strings.Join(PpaList, "</br> sudo add-apt-repository "), strings.Join(SoftList, " "))
 	return PrintHTML(content, TITLES["repo_list"][lang], lang, to_replace)
 }
 

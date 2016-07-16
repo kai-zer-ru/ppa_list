@@ -17,6 +17,7 @@ type Config struct {
 func (Conf *Config)ReadConfiguration() bool {
 	file_content, err := ioutil.ReadFile (Conf.Configuration_filename)
 	if err != nil {
+		fmt.Println(err.Error())
 		return false
 	}
 

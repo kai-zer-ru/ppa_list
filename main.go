@@ -6,8 +6,6 @@ import (
 	"time"
 	"net/http"
 	"strings"
-	"net"
-	"os"
 	"strconv"
 )
 
@@ -15,10 +13,13 @@ var (
 
 	MainConfig          = Config {}
 	PpaList             = make([]string,0)
+	PpaMap              = map[string]int {}
 	PpaListString       string
 	SourceList          = make([]string,0)
+	SourceMap              = map[string]int {}
 	SourceListString    string
 	SoftList            = make([]string,0)
+	SoftMap              = map[string]int {}
 	SoftListString      string
 	Version             = "0.01"
 	chttp               = http.NewServeMux()
@@ -100,84 +101,17 @@ func parseFlags() bool {
 }
 
 
-func ReadPpaList() error {
-	PpaListPath := MainConfig.GetConfString("PpaListPath", "/opt/ppalist/ppalist")
-	PpaListFile, err := os.Open(PpaListPath)
-	if err != nil {
-		fmt.Println("Erro while loading PPA list: ", err.Error())
-		return err
-	}
-	defer PpaListFile.Close()
-
-	stat, err := PpaListFile.Stat()
-	if err != nil {
-		fmt.Println("Erro while get PPA list size: ", err.Error())
-		return err
-	}
-	bs := make([]byte, stat.Size())
-	_, err = PpaListFile.Read(bs)
-	if err != nil {
-		return err
-	}
-
-	PpaListString = string(bs)
-	PpaList = strings.Split(PpaListString, ";")
-	return nil
-}
-
-func ReadSourceList() error {
-	SourceListPath := MainConfig.GetConfString("SourceListPath", "/opt/ppalist/sourcelist")
-	SourceListFile, err := os.Open(SourceListPath)
-	if err != nil {
-		fmt.Println("Erro while loading PPA list: ", err.Error())
-		return err
-	}
-	defer SourceListFile.Close()
-
-	stat, err := SourceListFile.Stat()
-	if err != nil {
-		fmt.Println("Erro while get PPA list size: ", err.Error())
-		return err
-	}
-	bs := make([]byte, stat.Size())
-	_, err = SourceListFile.Read(bs)
-	if err != nil {
-		return err
-	}
-
-	SourceListString = string(bs)
-	SourceList = strings.Split(SourceListString, ";")
-	return nil
-}
-
-func ReadSoftList() error {
-	SoftListPath := MainConfig.GetConfString("SoftListPath", "/opt/ppalist/softlist")
-	SoftListFile, err := os.Open(SoftListPath)
-	if err != nil {
-		fmt.Println("Erro while loading Soft list: ", err.Error())
-		return err
-	}
-	defer SoftListFile.Close()
-
-	stat, err := SoftListFile.Stat()
-	if err != nil {
-		fmt.Println("Erro while get Soft list size: ", err.Error())
-		return err
-	}
-	bs := make([]byte, stat.Size())
-	_, err = SoftListFile.Read(bs)
-	if err != nil {
-		return err
-	}
-
-	SoftListString = string(bs)
-	SoftList = strings.Split(SoftListString, " ")
-	return nil
-}
 
 func main() {
+	MainConfig.Configuration_filename = "/opt/ppalist/main.cfg"
 	resultParse := parseFlags()
 	if (resultParse == true) {
+		return
+	}
+	MainConfig.Configuration = map[string]string{}
+
+	if (!MainConfig.ReadConfiguration()) {
+		fmt.Println("Read Configuration error")
 		return
 	}
 
@@ -201,22 +135,10 @@ func main() {
 	http.HandleFunc("/add_new_repo", add_new_repo)
 	http.HandleFunc("/repo_list", repo_list)
 	http.HandleFunc("/contacts", contacts)
-	chttp.Handle("/", http.FileServer(http.Dir("./")))
-	is_unix := MainConfig.GetConfBool("UseUnix",false)
-	if is_unix ==  false{
-		address := MainConfig.GetConfString("RunPath","localhost:3333")
-		fmt.Println(address)
-		panic(http.ListenAndServe(address,nil))
-	} else {
-		unix_sock := MainConfig.GetConfString("RunPath","/var/run/ppa-list.sock")
-		os.Remove(unix_sock)
-		l,err := net.Listen("unix",unix_sock)
-		os.Chmod(unix_sock, 0777)
-		if err != nil {
-			panic(fmt.Sprintf("Listen socket %s error: %s", unix_sock,err))
-		}
-		panic(http.Serve(l,nil))
-	}
+	chttp.Handle("/", http.FileServer(http.Dir(MainConfig.GetConfString("StaticDir","/opt/ppalist/"))))
+	address := MainConfig.GetConfString("RunPath","localhost:3333")
+	fmt.Println(address)
+	panic(http.ListenAndServe(address,nil))
 }
 
 func application(w http.ResponseWriter, req *http.Request) {
