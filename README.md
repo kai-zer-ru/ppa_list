@@ -1,14 +1,16 @@
-# Repository Manager ppa_list
+# Менеджер репозиториев ppa_list
 
-This application is designed to store and add a list of repositories and applications that are needed in a single repository for later use in a new installation (reinstalling) Ubuntu.
+Данное приложение предназначено для хранения и добавления списка репозиториев и необходимых приложений в одно хранилище для дальнейшего использования при новой установке (переустановке) Ubuntu.
 
-## Assembly and installation
+Внешний вид пока что оставляет желать лучшего, но я работаю над этим.
 
-To collect this service and install it into the system, you need the following:
+## Сборка и установка
+
+Что бы собрать данный сервис и установить его в систему, необходимо следующее:
 
 * GoLang 1.6+
 
-Clone repository and collect:
+Клонируем репозиторий и собираем:
 
 ```
 git clone https://github.com/kaizer666/ppa_list.git
@@ -17,40 +19,40 @@ make
 sudo make install
 ```
 
-Then start the service:
+Затем запускаем сервис:
 
 ```
 sudo service ppa_list start
 ```
 
-Go to the address [http://localhost:3333](http://localhost:3333) and rejoice.
+Переходим по адресу [http://localhost:3333](http://localhost:3333) и радуемся.
 
-The wrapper ## in the domain/subdomain through Nginx
+## Обёртка в домен/поддомен через Nginx
 
-In order to make the service run on domain/subdomain on the server Nginx, do the following:
+Для того, что бы заставить сервис работать на домене/поддомене на сервере с Nginx, сделайте следующее:
 
 ```
 cd /etc/nginx/conf.d
 sudo nano ppa.your.domain.com.conf
 ```
 
-And insert the following lines:
+И вставьте следующие строки:
 
 ```
 server {
-    listen 80;
-    server_name ppa.your.domain.com;
+    listen 80;
+    server_name ppa.your.domain.com;
 
-    location / {
-        proxy_pass http: // localhost: 3333;
-    }
+    location / {
+        proxy_pass http://localhost:3333;
+    }
 }
 ```
 
-## Setting up the service
+## Настройка сервиса
 
-All settings are stored in the file `/opt/ppalist/main.cfg`
+Все настройки хранятся в файле `/opt/ppalist/main.cfg`
 
-## Example
+## Пример
 
-Service work can be found here - [http://ppatest.kai-zer.ru](http://ppatest.kai-zer.ru)
+Работу сервиса можно посмотреть тут - [http://ppatest.kai-zer.ru](http://ppatest.kai-zer.ru)

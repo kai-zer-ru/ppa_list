@@ -64,6 +64,10 @@ var (
 			ENGLISH_LANG : "Repository not added",
 		},
 	}
+	REPO_IS_ADDED = map[string]string {
+		RUSSIAN_LANG: "Репозиторий добавлен",
+		ENGLISH_LANG: "Repository was added",
+	}
 )
 
 func LoadPage(name, lang string) string {

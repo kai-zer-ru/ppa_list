@@ -228,6 +228,6 @@ func add_new_repo(w http.ResponseWriter, req *http.Request) {
 		AddSoft(soft)
 	}
 
-	PageBody = GetAddRepoPage(lang, "")
+	PageBody = GetAddRepoPage(lang, REPO_IS_ADDED[lang])
 	fmt.Fprintf(w,"%s",PageBody)
 }
