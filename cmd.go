@@ -28,26 +28,6 @@ func ExecCmd(name string, cmds []string) (string,error){
 	return string(b2.Bytes()),nil
 }
 
-func Grep(name string, cmds []string,grepStr string) string {
-	c1 := exec.Command(name, cmds...)
-	c2 := exec.Command("grep", grepStr)
-
-	r, w := io.Pipe()
-	c1.Stdout = w
-	c2.Stdin = r
-
-	var b2 bytes.Buffer
-	c2.Stdout = &b2
-
-	c1.Start()
-	c2.Start()
-	c1.Wait()
-	w.Close()
-	c2.Wait()
-
-	return string(b2.Bytes())
-}
-
 type AppInfo struct {
 	Pid uint32
 	Path string
