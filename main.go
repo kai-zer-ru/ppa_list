@@ -29,7 +29,11 @@ func parseFlags() bool {
 	var info 			= flag.Bool("info", false, "")
 	var hangup 			= flag.Bool("hangup", false, "")
 	var interrupt		= flag.Bool("interrupt", false, "")
+	var conf            = flag.String("conf", "/opt/ppalist/main.cfg", "")
 	flag.Parse()
+	if *conf != "" {
+		MainConfig.Configuration_filename = *conf
+	}
 	if *info {
 		a := GetPid()
 		if len(a) > 0 {
