@@ -36,7 +36,7 @@ wget https://github.com/kaizer666/ppa_list/releases/download/alpha/ppa_list.tar
 tar xf ppa_list.tar
 ./ppa_list &
 ```
-При желании, внесите изминения в `main.cfg`.
+При желании, внесите изменения в `main.cfg`.
 
 ## Обёртка в домен/поддомен через Nginx
 
