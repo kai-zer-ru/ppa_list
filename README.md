@@ -66,4 +66,4 @@ server {
 
 ## Пример
 
-Работу сервиса можно посмотреть тут - [http://ppatest.kai-zer.ru](http://ppatest.kai-zer.ru)
+Работу сервиса можно посмотреть тут - [http://ppatest.kai-zer.ru](http://ppatest.kai-zer.ru). Можете потыкать его и сообщить о найденных ошибках. Буду благодарен.
