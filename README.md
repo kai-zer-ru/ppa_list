@@ -24,8 +24,24 @@ sudo make install
 ```
 sudo service ppa_list start
 ```
+## Установка из бинарника
 
-Переходим по адресу [http://localhost:3333](http://localhost:3333) и радуемся.
+Что бы установить `ppa_list` из бинарника - выполните следующие команды:
+
+```
+sudo su
+mkdir -p /opt/ppalist
+cd /opt/ppalist
+wget https://github.com/kaizer666/ppa_list/releases/download/alpha/ppa_list.tar
+tar xf ppa_list.tar
+./ppa_list &
+```
+При желании, внесите изминения в `main.cfg`.
+
+
+## Проверка работоспособности
+
+Переходим по адресу http://YOUR.SERVER.IP.ADDR:3333 и радуемся.
 
 ## Обёртка в домен/поддомен через Nginx
 
