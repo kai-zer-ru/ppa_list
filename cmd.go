@@ -6,7 +6,6 @@ import (
 	"os"
 	"strings"
 	"strconv"
-	"io"
 )
 
 func ExecCmd(name string, cmds []string) (string,error){
