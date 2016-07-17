@@ -160,7 +160,6 @@ func main() {
 func application(w http.ResponseWriter, req *http.Request) {
 	if (strings.Contains(req.URL.Path, ".")) {
 		chttp.ServeHTTP(w, req)
-		fmt.Println("STATIC!!!")
 		return
 	}
 	content_type := MainConfig.GetConfString("ContentType","text/html")
