@@ -96,7 +96,7 @@ func WriteFile(filename, data string) {
 }
 
 func ReadPpaList() error {
-	PpaListPath := MainConfig.GetConfString("PpaListPath", "/opt/ppalist/ppalist")
+	PpaListPath := fmt.Sprintf("%s%s", MainDir, ppalist_filename)
 	PpaListFile, err := os.Open(PpaListPath)
 	if err != nil {
 		fmt.Println("Erro while loading PPA list: ", err.Error())
@@ -131,7 +131,7 @@ func ReadPpaList() error {
 }
 
 func ReadSourceList() error {
-	SourceListPath := MainConfig.GetConfString("SourceListPath", "/opt/ppalist/sourcelist")
+	SourceListPath := fmt.Sprintf("%s%s", MainDir, sourcelistfilename)
 	SourceListFile, err := os.Open(SourceListPath)
 	if err != nil {
 		fmt.Println("Erro while loading Source list: ", err.Error())
@@ -166,7 +166,7 @@ func ReadSourceList() error {
 }
 
 func ReadSoftList() error {
-	SoftListPath := MainConfig.GetConfString("SoftListPath", "/opt/ppalist/softlist")
+	SoftListPath := fmt.Sprintf("%s%s", MainDir, softlistfilename)
 	SoftListFile, err := os.Open(SoftListPath)
 	if err != nil {
 		fmt.Println("Erro while loading Soft list: ", err.Error())

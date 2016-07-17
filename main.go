@@ -23,6 +23,10 @@ var (
 	SoftListString      string
 	Version             = "0.01"
 	chttp               = http.NewServeMux()
+	MainDir             string
+	ppalist_filename    string
+	sourcelistfilename  string
+	softlistfilename    string
 )
 
 func parseFlags() bool {
@@ -119,6 +123,11 @@ func main() {
 		return
 	}
 
+	MainDir              = MainConfig.GetConfString("MainDir", "/opt/ppalist")
+	ppalist_filename     = MainConfig.GetConfString("ppalist_filename", "ppalist")
+	sourcelistfilename   = MainConfig.GetConfString("sourcelistfilename", "sourcelist")
+	softlistfilename     = MainConfig.GetConfString("softlistfilename", "softlist")
+
 	err := ReadPpaList()
 	if (err != nil) {
 		fmt.Println(err.Error())
@@ -134,12 +143,15 @@ func main() {
 		fmt.Println(err.Error())
 		return
 	}
+
+
+
 	http.HandleFunc("/", application)
 	http.HandleFunc("/add_repo", add_repo)
 	http.HandleFunc("/add_new_repo", add_new_repo)
 	http.HandleFunc("/repo_list", repo_list)
 	http.HandleFunc("/contacts", contacts)
-	chttp.Handle("/", http.FileServer(http.Dir(MainConfig.GetConfString("StaticDir","/opt/ppalist/"))))
+	chttp.Handle("/", http.FileServer(http.Dir(MainDir)))
 	address := MainConfig.GetConfString("RunPath",":3333")
 	fmt.Println(address)
 	panic(http.ListenAndServe(address,nil))
