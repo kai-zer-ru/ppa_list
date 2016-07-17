@@ -140,7 +140,7 @@ func main() {
 	http.HandleFunc("/repo_list", repo_list)
 	http.HandleFunc("/contacts", contacts)
 	chttp.Handle("/", http.FileServer(http.Dir(MainConfig.GetConfString("StaticDir","/opt/ppalist/"))))
-	address := MainConfig.GetConfString("RunPath","localhost:3333")
+	address := MainConfig.GetConfString("RunPath",":3333")
 	fmt.Println(address)
 	panic(http.ListenAndServe(address,nil))
 }
