@@ -7,8 +7,12 @@ SOFT_LIST=/opt/ppalist/softlist
 SOURCE_LIST=/opt/ppalist/sourcelist
 APP_NAME=ppa_list
 INIT_D_FILE=ppa_list.sh
+
 all:
 	go build -o $(APP_NAME)
+
+clean:
+	rm $(APP_NAME)
 
 install:
 	mkdir -p $(WORK_DIR)
