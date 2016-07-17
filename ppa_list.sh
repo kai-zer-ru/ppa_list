@@ -17,23 +17,23 @@ LOGFILE=/var/log/ppa_list.log
 
 start() {
   if [ -f /var/run/$PIDNAME ] && kill -0 $(cat /var/run/$PIDNAME); then
-    echo 'Service already running' >&2
+    echo 'Service ppa_list already running' >&2
     return 1
   fi
-  echo 'Starting service $NAME' >&2
+  echo 'Starting service ppa_list' >&2
   local CMD="$SCRIPT &> \"$LOGFILE\" & echo \$!"
   su -c "$CMD" $RUNAS > "$PIDFILE"
-  echo 'Service $NAME started' >&2
+  echo 'Service ppa_list started' >&2
 }
 
 stop() {
   if [ ! -f "$PIDFILE" ] || ! kill -0 $(cat "$PIDFILE"); then
-    echo 'Service not running' >&2
+    echo 'Service ppa_list not running' >&2
     return 1
   fi
-  echo 'Stopping service $NAME' >&2
+  echo 'Stopping service ppa_list' >&2
   kill -15 $(cat "$PIDFILE") && rm -f "$PIDFILE"
-  echo 'Service $NAME stopped' >&2
+  echo 'Service ppa_list stopped' >&2
 }
 
 case "$1" in
